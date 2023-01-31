@@ -3,10 +3,12 @@ import { GoogleLogin, GoogleLogout } from 'react-google-login';
 import { gapi } from 'gapi-script';
 import { RepeatIcon } from '@chakra-ui/icons';
 import { Box, Flex, Text } from '@chakra-ui/layout';
-import { Calendar } from '../../Components';
+import { AddEventModal, Calendar, DetailsModal } from '../../Components';
 import { IconButton } from '@chakra-ui/button';
 import { Spinner } from '@chakra-ui/spinner';
 import useDocumentTitle from '../../utils/useDocumentTitle';
+
+import { useDisclosure } from '@chakra-ui/react';
 
 const CLIENT_ID = process.env.REACT_APP_CLIENT_ID;
 const API_KEY = process.env.REACT_APP_API_KEY;
@@ -20,13 +22,18 @@ export default function Home() {
   const [eventsLoading, setEventsLoading] = useState(false);
   const [events, setEvents] = useState([]);
 
+  const [eventDetails, setEventDetails] = useState();
+
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
   const getLatestEvents = async () => {
     try {
       setEventsLoading(true);
 
       const request = {
         calendarId: 'primary',
-        timeMin: new Date('2023-01-01T00:00:00.000Z').toISOString(),
+        // timeMin: new Date('2023-01-01T00:00:00.000Z').toISOString(),
+        timeMin: new Date().toISOString(),
         showDeleted: false,
         singleEvents: true,
         orderBy: 'startTime',
@@ -34,12 +41,12 @@ export default function Home() {
 
       const response = await gapi.client?.calendar?.events.list(request);
 
-      console.log({ response });
-
       const filteredItems = response.result.items.map((item) => ({
+        id: item.id,
         title: item.summary,
         start: item.start.dateTime,
         end: item.end.dateTime,
+        description: item.description,
       }));
 
       setEvents(filteredItems);
@@ -62,6 +69,38 @@ export default function Home() {
     };
     gapi.load('client:auth2', initClient);
   });
+
+  const handleAddEvent = async (event) => {
+    try {
+      const request = await gapi.client?.calendar?.events.insert({
+        calendarId: 'primary',
+        resource: event,
+      });
+
+      if (request.status === 200) {
+        getLatestEvents();
+      }
+    } catch (error) {
+      setError('Something went wrong while adding event, please try again!');
+    }
+  };
+
+  const handleDeleteEvent = async (eventId) => {
+    try {
+      const params = {
+        calendarId: 'primary',
+        eventId: eventId,
+      };
+
+      const request = await gapi.client?.calendar?.events.delete(params);
+
+      if (request.status === 204) {
+        getLatestEvents();
+      }
+    } catch (error) {
+      setError('Something went wrong while deleting event, please try again!');
+    }
+  };
 
   const onSuccess = (res) => {
     setAuthStatus(true);
@@ -106,6 +145,8 @@ export default function Home() {
         position='relative'
         alignItems='center'
       >
+        <AddEventModal handleAddEvent={handleAddEvent} />
+
         {authStatus ? (
           <GoogleLogout
             clientId={CLIENT_ID}
@@ -157,9 +198,20 @@ export default function Home() {
       {/* Calendar - show only if there are events*/}
       {events.length > 0 && (
         <Box mt={10} h='70vh' overflowY='hidden'>
-          <Calendar events={events} />
+          <Calendar
+            events={events}
+            setIsOpen={onOpen}
+            setEventDetails={setEventDetails}
+          />
         </Box>
       )}
+
+      <DetailsModal
+        isOpen={isOpen}
+        onClose={onClose}
+        event={eventDetails}
+        handleDeleteEvent={handleDeleteEvent}
+      />
     </Box>
   );
 }

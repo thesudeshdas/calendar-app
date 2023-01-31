@@ -7,7 +7,38 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 
 const API_KEY = process.env.REACT_APP_API_KEY;
 
-export default function Calendar({ events }) {
+export default function Calendar({ events, setIsOpen, setEventDetails }) {
+  const handleEventClick = (arg) => {
+    arg.jsEvent.preventDefault();
+    setIsOpen(true);
+
+    setEventDetails({
+      id: arg.event.id,
+      title: arg.event.title,
+      description: arg.event.extendedProps.description,
+      start: new Date(arg.event.start).toLocaleString(),
+      end: new Date(arg.event.end).toLocaleString(),
+    });
+
+    // setModalTitle(arg.event.title);
+    // setModalContent(arg.event.extendedProps.description);
+
+    // console.log('handle event', arg.event.id);
+  };
+
+  const renderEventContent = (eventInfo) => {
+    console.log({ eventInfo });
+
+    return (
+      <>
+        <div>
+          <div>{eventInfo.event.title}</div>
+          <div>{eventInfo.timeText} EST</div>
+        </div>
+      </>
+    );
+  };
+
   const setting = {
     plugins: [
       dayGridPlugin,
@@ -31,6 +62,8 @@ export default function Calendar({ events }) {
       meridiem: 'short',
     },
     eventColor: '#EB0181',
+    eventClick: handleEventClick,
+    // eventContent: renderEventContent,
   };
 
   return <FullCalendar {...setting} />;
