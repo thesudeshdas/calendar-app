@@ -230,7 +230,7 @@ export default function Home() {
         isOpen={isOpen}
         onOpen={onOpen}
         onClose={onClose}
-        eventDetails={eventDetails}
+        event={eventDetails}
       />
     </Box>
   );
