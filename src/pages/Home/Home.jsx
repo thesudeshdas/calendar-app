@@ -3,21 +3,12 @@ import { GoogleLogin, GoogleLogout } from 'react-google-login';
 import { gapi } from 'gapi-script';
 import { RepeatIcon } from '@chakra-ui/icons';
 import { Box, Flex, Text } from '@chakra-ui/layout';
-import { Calendar, DetailsModal } from '../../Components';
-import { Button, IconButton } from '@chakra-ui/button';
+import { AddEventModal, Calendar, DetailsModal } from '../../Components';
+import { IconButton } from '@chakra-ui/button';
 import { Spinner } from '@chakra-ui/spinner';
 import useDocumentTitle from '../../utils/useDocumentTitle';
 
-import {
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  ModalCloseButton,
-  useDisclosure,
-} from '@chakra-ui/react';
+import { useDisclosure } from '@chakra-ui/react';
 
 const CLIENT_ID = process.env.REACT_APP_CLIENT_ID;
 const API_KEY = process.env.REACT_APP_API_KEY;
@@ -35,47 +26,6 @@ export default function Home() {
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const handleAddEvent = async () => {
-    console.log('adding event');
-
-    try {
-      const event = {
-        summary: 'Google I/O 2015',
-        location: '800 Howard St., San Francisco, CA 94103',
-        description: "A chance to hear more about Google's developer products.",
-        start: {
-          dateTime: '2023-01-31T09:00:00-00:00',
-          timeZone: 'Asia/Kolkata',
-        },
-        end: {
-          dateTime: '2023-01-31T17:00:00-00:00',
-          timeZone: 'Asia/Kolkata',
-        },
-        recurrence: ['RRULE:FREQ=DAILY;COUNT=2'],
-        attendees: [
-          { email: 'lpage@example.com' },
-          { email: 'sbrin@example.com' },
-        ],
-        reminders: {
-          useDefault: false,
-          overrides: [
-            { method: 'email', minutes: 24 * 60 },
-            { method: 'popup', minutes: 10 },
-          ],
-        },
-      };
-
-      const request = await gapi.client?.calendar?.events.insert({
-        calendarId: 'primary',
-        resource: event,
-      });
-
-      console.log({ request });
-    } catch (error) {
-      console.log('add karte waqt bigad gaya');
-    }
-  };
-
   const getLatestEvents = async () => {
     try {
       setEventsLoading(true);
@@ -90,8 +40,6 @@ export default function Home() {
       };
 
       const response = await gapi.client?.calendar?.events.list(request);
-
-      console.log({ response });
 
       const filteredItems = response.result.items.map((item) => ({
         id: item.id,
@@ -121,6 +69,21 @@ export default function Home() {
     };
     gapi.load('client:auth2', initClient);
   });
+
+  const handleAddEvent = async (event) => {
+    try {
+      const request = await gapi.client?.calendar?.events.insert({
+        calendarId: 'primary',
+        resource: event,
+      });
+
+      if (request.status === 200) {
+        getLatestEvents();
+      }
+    } catch (error) {
+      setError('Something went wrong while adding event, please try again!');
+    }
+  };
 
   const onSuccess = (res) => {
     setAuthStatus(true);
@@ -165,7 +128,7 @@ export default function Home() {
         position='relative'
         alignItems='center'
       >
-        <Button onClick={handleAddEvent}>Add event</Button>
+        <AddEventModal handleAddEvent={handleAddEvent} />
 
         {authStatus ? (
           <GoogleLogout
@@ -226,12 +189,7 @@ export default function Home() {
         </Box>
       )}
 
-      <DetailsModal
-        isOpen={isOpen}
-        onOpen={onOpen}
-        onClose={onClose}
-        event={eventDetails}
-      />
+      <DetailsModal isOpen={isOpen} onClose={onClose} event={eventDetails} />
     </Box>
   );
 }

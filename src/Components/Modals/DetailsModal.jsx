@@ -10,10 +10,11 @@ import {
   Button,
   Input,
   Textarea,
+  Stack,
 } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 
-export default function DetailsModal({ isOpen, onOpen, onClose, event }) {
+export default function DetailsModal({ isOpen, onClose, event }) {
   const [eventDetails, setEventDetails] = useState(event);
 
   const handleEdit = () => {
@@ -25,6 +26,11 @@ export default function DetailsModal({ isOpen, onOpen, onClose, event }) {
       ...prev,
       [event.target.name]: event.target.value,
     }));
+  };
+
+  const handleClose = () => {
+    setEventDetails({});
+    onClose();
   };
 
   useEffect(() => {
@@ -47,20 +53,27 @@ export default function DetailsModal({ isOpen, onOpen, onClose, event }) {
         </ModalHeader>
         <ModalCloseButton />
         <ModalBody>
-          <Textarea
-            type='text'
-            name='description'
-            onChange={handleChange}
-            placeholder={eventDetails?.description}
-            value={eventDetails?.description}
-          />
+          <Stack gap={2}>
+            <Textarea
+              type='text'
+              name='description'
+              onChange={handleChange}
+              placeholder={eventDetails?.description}
+              value={eventDetails?.description}
+            />
 
-          <Text>Start time: {eventDetails?.start}</Text>
-          <Text>End time: {eventDetails?.end}</Text>
+            <Text>Start time: {eventDetails?.start}</Text>
+            <Text>End time: {eventDetails?.end}</Text>
+          </Stack>
         </ModalBody>
 
         <ModalFooter>
-          <Button colorScheme='blue' mr={3} onClick={onClose}>
+          <Button
+            colorScheme='blue'
+            variant='outline'
+            mr={3}
+            onClick={handleClose}
+          >
             Close
           </Button>
           <Button colorScheme='blue' onClick={handleEdit}>

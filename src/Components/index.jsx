@@ -1,4 +1,5 @@
 import Calendar from './Calendar/Calendar';
-import DetailsModal from './Modal/DetailsModal';
+import AddEventModal from './Modals/AddEventModal';
+import DetailsModal from './Modals/DetailsModal';
 
-export { Calendar, DetailsModal };
+export { Calendar, AddEventModal, DetailsModal };
