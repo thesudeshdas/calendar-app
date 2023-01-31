@@ -141,10 +141,9 @@ function App() {
       (async () => {
         const request = {
           calendarId: 'primary',
-          timeMin: new Date().toISOString(),
+          timeMin: new Date('2023-01-01T00:00:00.000Z').toISOString(),
           showDeleted: false,
           singleEvents: true,
-          maxResults: 10,
           orderBy: 'startTime',
         };
 
