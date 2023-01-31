@@ -5,6 +5,8 @@ import interactionPlugin from '@fullcalendar/interaction'; // needed for dayClic
 import googleCalendarPlugin from '@fullcalendar/google-calendar';
 import timeGridPlugin from '@fullcalendar/timegrid';
 
+const API_KEY = process.env.REACT_APP_API_KEY;
+
 export default function Calendar({ events }) {
   const setting = {
     plugins: [
@@ -14,19 +16,14 @@ export default function Calendar({ events }) {
       interactionPlugin,
       googleCalendarPlugin,
     ],
-
     height: '100%',
     events: events,
-    //Main Key
-    googleCalendarApiKey: 'AIzaSyAdgT4JxHeZe_Wf7LeCannvfE4HngQNFJI',
-
-    // eventClick: handleDateClick,
+    googleCalendarApiKey: API_KEY,
     initialView: 'timeGridWeek',
     headerToolbar: {
-      left: 'prev,next today',
+      left: 'prev,next',
       center: 'title',
-      right: '',
-      // right: "dayGridMonth,listYear"
+      right: 'today timeGridWeek dayGridMonth',
     },
     eventTimeFormat: {
       hour: 'numeric',
@@ -34,8 +31,6 @@ export default function Calendar({ events }) {
       meridiem: 'short',
     },
     eventColor: '#EB0181',
-
-    // eventContent: renderEventContent,
   };
 
   return <FullCalendar {...setting} />;
