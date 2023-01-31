@@ -145,7 +145,7 @@ export default function Home() {
         position='relative'
         alignItems='center'
       >
-        <AddEventModal handleAddEvent={handleAddEvent} />
+        {authStatus && <AddEventModal handleAddEvent={handleAddEvent} />}
 
         {authStatus ? (
           <GoogleLogout
