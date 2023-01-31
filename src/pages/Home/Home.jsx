@@ -34,9 +34,12 @@ export default function Home() {
 
       const response = await gapi.client?.calendar?.events.list(request);
 
+      console.log({ response });
+
       const filteredItems = response.result.items.map((item) => ({
         title: item.summary,
         start: item.start.dateTime,
+        end: item.end.dateTime,
       }));
 
       setEvents(filteredItems);
