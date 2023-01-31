@@ -6,12 +6,15 @@ import { Box, Flex, Text } from '@chakra-ui/layout';
 import { Calendar } from '../../Components';
 import { IconButton } from '@chakra-ui/button';
 import { Spinner } from '@chakra-ui/spinner';
+import useDocumentTitle from '../../utils/useDocumentTitle';
 
 const CLIENT_ID = process.env.REACT_APP_CLIENT_ID;
 const API_KEY = process.env.REACT_APP_API_KEY;
 const DISCOVERY_DOC = process.env.REACT_APP_DISCOVERY_DOC;
 
 export default function Home() {
+  useDocumentTitle('Calendar');
+
   const [authStatus, setAuthStatus] = useState(false);
   const [error, setError] = useState();
   const [eventsLoading, setEventsLoading] = useState(false);
