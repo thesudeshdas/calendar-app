@@ -4,7 +4,7 @@ import { gapi } from 'gapi-script';
 import { RepeatIcon } from '@chakra-ui/icons';
 import { Box, Flex, Text } from '@chakra-ui/layout';
 import { Calendar } from '../../Components';
-import { IconButton } from '@chakra-ui/button';
+import { Button, IconButton } from '@chakra-ui/button';
 import { Spinner } from '@chakra-ui/spinner';
 import useDocumentTitle from '../../utils/useDocumentTitle';
 
@@ -19,6 +19,47 @@ export default function Home() {
   const [error, setError] = useState();
   const [eventsLoading, setEventsLoading] = useState(false);
   const [events, setEvents] = useState([]);
+
+  const handleAddEvent = async () => {
+    console.log('adding event');
+
+    try {
+      const event = {
+        summary: 'Google I/O 2015',
+        location: '800 Howard St., San Francisco, CA 94103',
+        description: "A chance to hear more about Google's developer products.",
+        start: {
+          dateTime: '2023-01-31T09:00:00-00:00',
+          timeZone: 'Asia/Kolkata',
+        },
+        end: {
+          dateTime: '2023-01-31T17:00:00-00:00',
+          timeZone: 'Asia/Kolkata',
+        },
+        recurrence: ['RRULE:FREQ=DAILY;COUNT=2'],
+        attendees: [
+          { email: 'lpage@example.com' },
+          { email: 'sbrin@example.com' },
+        ],
+        reminders: {
+          useDefault: false,
+          overrides: [
+            { method: 'email', minutes: 24 * 60 },
+            { method: 'popup', minutes: 10 },
+          ],
+        },
+      };
+
+      const request = await gapi.client?.calendar?.events.insert({
+        calendarId: 'primary',
+        resource: event,
+      });
+
+      console.log({ request });
+    } catch (error) {
+      console.log('add karte waqt bigad gaya');
+    }
+  };
 
   const getLatestEvents = async () => {
     try {
@@ -106,6 +147,8 @@ export default function Home() {
         position='relative'
         alignItems='center'
       >
+        <Button onClick={handleAddEvent}>Add event</Button>
+
         {authStatus ? (
           <GoogleLogout
             clientId={CLIENT_ID}
