@@ -36,3 +36,29 @@
     transform: rotate(360deg);
   }
 }
+
+.calEvents {
+  background: #393a3d;
+  min-height: 30px;
+  color: #fff;
+  border-radius: 0px;
+}
+.fcContent {
+  white-space: normal;
+}
+.eventTitle,
+.eventTime {
+  font-size: 12px;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  height: 15px;
+  margin-left: 0;
+}
+.modalTitle {
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1.1;
+  color: inherit;
+  margin-bottom: 16px;
+}
