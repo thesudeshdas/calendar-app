@@ -114,7 +114,7 @@ export default function AddEventModal({ handleAddEvent }) {
               Close
             </Button>
             <Button colorScheme='blue' onClick={handleAdd}>
-              EdiAdd
+              Add Event
             </Button>
           </ModalFooter>
         </ModalContent>

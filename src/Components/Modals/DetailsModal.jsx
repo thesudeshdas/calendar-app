@@ -14,11 +14,21 @@ import {
 } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 
-export default function DetailsModal({ isOpen, onClose, event }) {
+export default function DetailsModal({
+  isOpen,
+  onClose,
+  event,
+  handleDeleteEvent,
+}) {
   const [eventDetails, setEventDetails] = useState(event);
 
   const handleEdit = () => {
     console.log({ eventDetails });
+  };
+
+  const handleDelete = () => {
+    handleDeleteEvent(eventDetails?.id);
+    handleClose();
   };
 
   const handleChange = (event) => {
@@ -72,9 +82,9 @@ export default function DetailsModal({ isOpen, onClose, event }) {
             colorScheme='blue'
             variant='outline'
             mr={3}
-            onClick={handleClose}
+            onClick={handleDelete}
           >
-            Close
+            Delete
           </Button>
           <Button colorScheme='blue' onClick={handleEdit}>
             Edit

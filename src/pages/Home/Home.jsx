@@ -85,6 +85,23 @@ export default function Home() {
     }
   };
 
+  const handleDeleteEvent = async (eventId) => {
+    try {
+      const params = {
+        calendarId: 'primary',
+        eventId: eventId,
+      };
+
+      const request = await gapi.client?.calendar?.events.delete(params);
+
+      if (request.status === 204) {
+        getLatestEvents();
+      }
+    } catch (error) {
+      setError('Something went wrong while deleting event, please try again!');
+    }
+  };
+
   const onSuccess = (res) => {
     setAuthStatus(true);
     getLatestEvents();
@@ -189,7 +206,12 @@ export default function Home() {
         </Box>
       )}
 
-      <DetailsModal isOpen={isOpen} onClose={onClose} event={eventDetails} />
+      <DetailsModal
+        isOpen={isOpen}
+        onClose={onClose}
+        event={eventDetails}
+        handleDeleteEvent={handleDeleteEvent}
+      />
     </Box>
   );
 }
