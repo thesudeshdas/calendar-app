@@ -15,7 +15,6 @@ const DISCOVERY_DOC = process.env.REACT_APP_DISCOVERY_DOC;
 
 export default function Home() {
   const [authStatus, setAuthStatus] = useState(false);
-
   const [events, setEvents] = useState([]);
 
   const setting = {
@@ -103,6 +102,7 @@ export default function Home() {
 
   return (
     <div className='App'>
+      {/* auth functionalities */}
       {authStatus ? (
         <GoogleLogout
           clientId={CLIENT_ID}
@@ -121,9 +121,12 @@ export default function Home() {
         />
       )}
 
+      {/* Refresh button */}
       <button onClick={getLatestEvents}>Events</button>
 
-      <FullCalendar {...setting} />
+      {/* Calendar */}
+
+      {events.length > 0 && <FullCalendar {...setting} />}
     </div>
   );
 }
