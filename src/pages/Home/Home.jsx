@@ -1,18 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { GoogleLogin, GoogleLogout } from 'react-google-login';
 import { gapi } from 'gapi-script';
-
 import { RepeatIcon } from '@chakra-ui/icons';
-
-import FullCalendar from '@fullcalendar/react';
-import dayGridPlugin from '@fullcalendar/daygrid';
-import listPlugin from '@fullcalendar/list';
-import interactionPlugin from '@fullcalendar/interaction'; // needed for dayClick
-import googleCalendarPlugin from '@fullcalendar/google-calendar';
-import timeGridPlugin from '@fullcalendar/timegrid';
 import { Box, Flex, Text } from '@chakra-ui/layout';
 import { Calendar } from '../../Components';
-import { Button, IconButton } from '@chakra-ui/button';
+import { IconButton } from '@chakra-ui/button';
 import { Spinner } from '@chakra-ui/spinner';
 
 const CLIENT_ID = process.env.REACT_APP_CLIENT_ID;
@@ -21,9 +13,9 @@ const DISCOVERY_DOC = process.env.REACT_APP_DISCOVERY_DOC;
 
 export default function Home() {
   const [authStatus, setAuthStatus] = useState(false);
-  const [events, setEvents] = useState([]);
   const [error, setError] = useState();
   const [eventsLoading, setEventsLoading] = useState(false);
+  const [events, setEvents] = useState([]);
 
   const getLatestEvents = async () => {
     try {
@@ -47,10 +39,11 @@ export default function Home() {
       setEvents(filteredItems);
       setEventsLoading(false);
     } catch (error) {
-      setError('Something went wrong, please logout and try again!');
+      setError('Something went wrong, please logout, refresh and try again!');
     }
   };
 
+  // inital fetch
   useEffect(() => {
     const initClient = () => {
       gapi.client.init({
@@ -82,10 +75,12 @@ export default function Home() {
 
   return (
     <Box>
+      {/* Instruction to sign in */}
       <Text fontWeight='semibold' fontSize='xl' mb={4} textAlign='center'>
         {authStatus ? '' : 'Sign in using Google to see your Calendar'}
       </Text>
 
+      {/* Error message */}
       {error && (
         <Text
           fontWeight='semibold'
@@ -98,7 +93,13 @@ export default function Home() {
         </Text>
       )}
 
-      <Flex justifyContent='center' gap={8} position='relative'>
+      {/* CTAs for sign in, logout & getting latest events */}
+      <Flex
+        justifyContent={authStatus ? 'flex-end' : 'center'}
+        gap={2}
+        position='relative'
+        alignItems='center'
+      >
         {authStatus ? (
           <GoogleLogout
             clientId={CLIENT_ID}
@@ -124,15 +125,12 @@ export default function Home() {
             variant='ghost'
             title='Refresh events'
             icon={<RepeatIcon />}
-            position='absolute'
-            right='0'
+            // position='absolute'
+            // right='0'
             onClick={getLatestEvents}
           />
         )}
       </Flex>
-
-      {/* Refresh button */}
-      {/* <button onClick={getLatestEvents}>Events</button> */}
 
       {/* when events are laoding */}
       {eventsLoading && (

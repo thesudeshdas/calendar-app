@@ -10,9 +10,7 @@ import App from './App';
 import { ChakraProvider } from '@chakra-ui/react';
 import Layout from './Layout/Layout';
 
-const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
-);
+const root = ReactDOM.createRoot(document.getElementById('root'));
 
 const router = createBrowserRouter([
   {
@@ -25,10 +23,12 @@ const router = createBrowserRouter([
   },
 ]);
 
+const CLIENT_ID = process.env.REACT_APP_CLIENT_ID;
+
 root.render(
   <React.StrictMode>
     <ChakraProvider>
-      <GoogleOAuthProvider clientId='986741280832-e719osmsgs3ck3csktejng81onkdvdd0.apps.googleusercontent.com'>
+      <GoogleOAuthProvider clientId={CLIENT_ID}>
         <RouterProvider router={router} />
       </GoogleOAuthProvider>
     </ChakraProvider>

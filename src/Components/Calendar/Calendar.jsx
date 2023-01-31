@@ -4,7 +4,6 @@ import listPlugin from '@fullcalendar/list';
 import interactionPlugin from '@fullcalendar/interaction'; // needed for dayClick
 import googleCalendarPlugin from '@fullcalendar/google-calendar';
 import timeGridPlugin from '@fullcalendar/timegrid';
-import { Box, Flex, Text } from '@chakra-ui/layout';
 
 export default function Calendar({ events }) {
   const setting = {
