@@ -33,6 +33,8 @@ export default function Calendar({ events }) {
       minute: '2-digit',
       meridiem: 'short',
     },
+    eventColor: '#EB0181',
+
     // eventContent: renderEventContent,
   };
 
