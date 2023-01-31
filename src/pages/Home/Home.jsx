@@ -3,7 +3,7 @@ import { GoogleLogin, GoogleLogout } from 'react-google-login';
 import { gapi } from 'gapi-script';
 import { RepeatIcon } from '@chakra-ui/icons';
 import { Box, Flex, Text } from '@chakra-ui/layout';
-import { Calendar } from '../../Components';
+import { Calendar, DetailsModal } from '../../Components';
 import { Button, IconButton } from '@chakra-ui/button';
 import { Spinner } from '@chakra-ui/spinner';
 import useDocumentTitle from '../../utils/useDocumentTitle';
@@ -226,26 +226,12 @@ export default function Home() {
         </Box>
       )}
 
-      <Modal isOpen={isOpen} onClose={onClose} isCentered>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>{eventDetails?.title}</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-            <Text>{eventDetails?.description}</Text>
-
-            <Text>Start time: {eventDetails?.start}</Text>
-            <Text>End time: {eventDetails?.end}</Text>
-          </ModalBody>
-
-          <ModalFooter>
-            <Button colorScheme='blue' mr={3} onClick={onClose}>
-              Close
-            </Button>
-            <Button variant='ghost'>Secondary Action</Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
+      <DetailsModal
+        isOpen={isOpen}
+        onOpen={onOpen}
+        onClose={onClose}
+        eventDetails={eventDetails}
+      />
     </Box>
   );
 }
