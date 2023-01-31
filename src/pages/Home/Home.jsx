@@ -8,6 +8,8 @@ import listPlugin from '@fullcalendar/list';
 import interactionPlugin from '@fullcalendar/interaction'; // needed for dayClick
 import googleCalendarPlugin from '@fullcalendar/google-calendar';
 import timeGridPlugin from '@fullcalendar/timegrid';
+import { Box, Flex, Heading, Stack, Text } from '@chakra-ui/layout';
+import { Button } from '@chakra-ui/button';
 
 const CLIENT_ID = process.env.REACT_APP_CLIENT_ID;
 const API_KEY = process.env.REACT_APP_API_KEY;
@@ -101,9 +103,33 @@ export default function Home() {
   console.log({ events });
 
   return (
-    <div className='App'>
+    <Stack>
+      <Text fontWeight='semibold' fontSize='xl' mb={4} textAlign='center'>
+        Sign in using Google to see your Calendar
+      </Text>
+
+      <Flex justifyContent='center' gap={8}>
+        <GoogleLogin
+          clientId={CLIENT_ID}
+          buttonText='Sign in with Google'
+          onSuccess={onSuccess}
+          onFailure={onFailure}
+          cookiePolicy={'single_host_origin'}
+          isSignedIn={true}
+          redirectUri='postmessage'
+        />
+
+        <GoogleLogout
+          clientId={CLIENT_ID}
+          buttonText='Logout'
+          onLogoutSuccess={onSuccessLogout}
+          onFailure={onFailureLogout}
+          redirectUri='postmessage'
+        />
+      </Flex>
+
       {/* auth functionalities */}
-      {authStatus ? (
+      {/* {authStatus ? (
         <GoogleLogout
           clientId={CLIENT_ID}
           buttonText='Logout'
@@ -119,7 +145,7 @@ export default function Home() {
           cookiePolicy={'single_host_origin'}
           isSignedIn={true}
         />
-      )}
+      )} */}
 
       {/* Refresh button */}
       <button onClick={getLatestEvents}>Events</button>
@@ -127,6 +153,6 @@ export default function Home() {
       {/* Calendar */}
 
       {events.length > 0 && <FullCalendar {...setting} />}
-    </div>
+    </Stack>
   );
 }
