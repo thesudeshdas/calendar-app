@@ -7,6 +7,7 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import listPlugin from '@fullcalendar/list';
 import interactionPlugin from '@fullcalendar/interaction'; // needed for dayClick
 import googleCalendarPlugin from '@fullcalendar/google-calendar';
+import timeGridPlugin from '@fullcalendar/timegrid';
 
 // import CalendarModal from '../Modal/Modal';
 
@@ -34,6 +35,7 @@ function App() {
   const setting = {
     plugins: [
       dayGridPlugin,
+      timeGridPlugin,
       listPlugin,
       interactionPlugin,
       googleCalendarPlugin,
@@ -48,7 +50,7 @@ function App() {
       },
     ],
     eventClick: handleDateClick,
-    initialView: 'dayGridMonth',
+    initialView: 'timeGridWeek',
     headerToolbar: {
       left: 'prev,next today',
       center: 'title',
