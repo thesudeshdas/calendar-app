@@ -65,26 +65,20 @@ export default function Home() {
   });
 
   const onSuccess = (res) => {
-    console.log('success:', res);
     setAuthStatus(true);
     getLatestEvents();
   };
 
-  const onFailure = (err) => {
-    console.log('failed:', err);
-  };
+  const onFailure = (err) => {};
 
   const onSuccessLogout = (res) => {
-    console.log('logout', res);
     setEvents([]);
     setAuthStatus(false);
   };
 
   const onFailureLogout = (res) => {
-    console.log('logout failure', res);
+    setError('Logout Failed! Please try again');
   };
-
-  console.log({ eventsLoading });
 
   return (
     <Box>
@@ -132,6 +126,7 @@ export default function Home() {
             icon={<RepeatIcon />}
             position='absolute'
             right='0'
+            onClick={getLatestEvents}
           />
         )}
       </Flex>
