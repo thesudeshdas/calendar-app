@@ -7,21 +7,31 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { Calendar, Home } from './pages';
 import App from './App';
 
+import { ChakraProvider } from '@chakra-ui/react';
+import Layout from './Layout/Layout';
+
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 
 const router = createBrowserRouter([
-  { path: '/', element: <Home /> },
-  { path: '/app', element: <App /> },
-  { path: '/calendar', element: <Calendar /> },
+  {
+    element: <Layout />,
+    children: [
+      { path: '/', element: <Home /> },
+      { path: '/app', element: <App /> },
+      { path: '/calendar', element: <Calendar /> },
+    ],
+  },
 ]);
 
 root.render(
   <React.StrictMode>
-    <GoogleOAuthProvider clientId='986741280832-e719osmsgs3ck3csktejng81onkdvdd0.apps.googleusercontent.com'>
-      <RouterProvider router={router} />
-    </GoogleOAuthProvider>
+    <ChakraProvider>
+      <GoogleOAuthProvider clientId='986741280832-e719osmsgs3ck3csktejng81onkdvdd0.apps.googleusercontent.com'>
+        <RouterProvider router={router} />
+      </GoogleOAuthProvider>
+    </ChakraProvider>
   </React.StrictMode>
 );
 
