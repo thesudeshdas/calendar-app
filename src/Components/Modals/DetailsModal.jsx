@@ -19,10 +19,25 @@ export default function DetailsModal({
   onClose,
   event,
   handleDeleteEvent,
+  handleEditEvent,
 }) {
   const [eventDetails, setEventDetails] = useState(event);
 
   const handleEdit = () => {
+    const event = {
+      summary: eventDetails?.title,
+      description: eventDetails?.description,
+      start: {
+        dateTime: new Date(eventDetails?.start),
+        timeZone: 'Asia/Kolkata',
+      },
+      end: {
+        dateTime: new Date(eventDetails?.end),
+        timeZone: 'Asia/Kolkata',
+      },
+    };
+
+    handleEditEvent(event);
     console.log({ eventDetails });
   };
 
