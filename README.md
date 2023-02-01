@@ -1,48 +1,77 @@
-# Getting Started with Create React App
+<a style="color:Black; cursor:pointer; text-decoration:none; display:block;" href='https://calendar-app-rvse.onrender.com/' target='blank'><h1 align='center'>Catalyst</h1></a>
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+<a style="cursor:pointer; text-decoration:none;" href='https://calendar-app-rvse.onrender.com/' target='blank'>![Calendar App](/docs/catalystLong.png)</a>
 
-## Available Scripts
+Calendar App lets you sync your Google Calendar
 
-In the project directory, you can run:
+## Tech Stack
 
-### `npm start`
+<img src="https://github-readme-tech-stack.vercel.app/api/cards?showBorder=false&lineCount=1&hideBg=true&hideTitle=true&line1=react,react,61DAFB;Google%20Calendar,Full%20Calendar,4285F4;Chakra%20UI,Charka%20ui,319795;" alt="My Tech Stack" />
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Important Links
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+- [Live Preview](https://calendar-app-rvse.onrender.com/)
 
-### `npm test`
+## Features
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- Sync with Google Calendar
+- Auth - Login & Logout
+- Add Event
+- Delete Event
+- See Event Details
 
-### `npm run build`
+## Run Locally
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+1 - Clone the project
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```bash
+  git clone https://github.com/thesudeshdas/calendar-app.git
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+2 - Go to the project directory
 
-### `npm run eject`
+```bash
+  cd calendar-app
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+3 - Install dependencies
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```bash
+  npm install
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+4 - Add environment variables
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+```bash
+  REACT_APP_CLIENT_ID
+  REACT_APP_DISCOVERY_DOC
+  REACT_APP_API_KEY
+```
 
-## Learn More
+5 - Start the server
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+```bash
+  npm run start
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Environment Variables
 
-init
+> 💡 To run this project, you will need to add the following environment variables to your .env file
+
+`REACT_APP_CLIENT_ID` - The URL for Google App's Client ID
+
+`REACT_APP_DISCOVERY_DOC` - The URL for Google Calendar API
+
+`REACT_APP_API_KEY` - The URL for Google App's API KEY
+
+## Future Roadmap
+
+> 🛣️ The following are the features that I'll be working on in the future.
+
+- [ ] Edit Event
+- [ ] Microsoft & Apple Login
+- [ ] Integration with Productivity app
+
+## Feedback
+
+If you have any feedback, please reach out to me via mail [sudesh_das@outlook.com](mailto:sudesh_das@outlook.com)
