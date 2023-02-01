@@ -1,6 +1,4 @@
-<a style="color:Black; cursor:pointer; text-decoration:none; display:block;" href='https://calendar-app-rvse.onrender.com/' target='blank'><h1 align='center'>Catalyst</h1></a>
-
-<a style="cursor:pointer; text-decoration:none;" href='https://calendar-app-rvse.onrender.com/' target='blank'>![Calendar App](/docs/catalystLong.png)</a>
+<a style="color:Black; cursor:pointer; text-decoration:none; display:block;" href='https://calendar-app-rvse.onrender.com/' target='blank'><h1 align='center'>Calendar App</h1></a>
 
 Calendar App lets you sync your Google Calendar
 
