@@ -32,8 +32,7 @@ export default function Home() {
 
       const request = {
         calendarId: 'primary',
-        // timeMin: new Date('2023-01-01T00:00:00.000Z').toISOString(),
-        timeMin: new Date().toISOString(),
+        timeMin: new Date('2023-01-01T00:00:00.000Z').toISOString(),
         showDeleted: false,
         singleEvents: true,
         orderBy: 'startTime',
@@ -62,7 +61,7 @@ export default function Home() {
       gapi.client.init({
         clientId: CLIENT_ID,
         scope:
-          'https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/calendar',
+          'https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/calendar.events',
         apiKey: API_KEY,
         discoveryDocs: [DISCOVERY_DOC],
       });
@@ -87,18 +86,33 @@ export default function Home() {
 
   const handleDeleteEvent = async (eventId) => {
     try {
-      const params = {
+      const request = await gapi.client?.calendar?.events.delete({
         calendarId: 'primary',
         eventId: eventId,
-      };
-
-      const request = await gapi.client?.calendar?.events.delete(params);
+      });
 
       if (request.status === 204) {
         getLatestEvents();
       }
     } catch (error) {
       setError('Something went wrong while deleting event, please try again!');
+    }
+  };
+
+  const handleEditEvent = async (event) => {
+    console.log({ event });
+
+    try {
+      const request = await gapi.client?.calendar?.events.patch({
+        calendarId: 'primary',
+        eventId: event.id,
+        resource: event,
+      });
+
+      console.log({ request });
+    } catch (error) {
+      // setError('Something went wrong while deleting event, please try again!');
+      console.log('What went wrong?', error);
     }
   };
 
@@ -211,6 +225,7 @@ export default function Home() {
         onClose={onClose}
         event={eventDetails}
         handleDeleteEvent={handleDeleteEvent}
+        handleEditEvent={handleEditEvent}
       />
     </Box>
   );
